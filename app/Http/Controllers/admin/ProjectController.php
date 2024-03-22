@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Http\Requests\StoreProjectRequest;
+use App\Http\Requests\UpdateProjectRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Project;
+use Illuminate\Support\Str;
 
 class ProjectController extends Controller
 {
@@ -45,9 +48,21 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreProjectRequest $request)
     {
+        $data = $request->validated();
+
+        $project = new Project();
+
+        $project->fill($data);
+
+        $project->slug = Str::slug($project->title);
+
+        $project->is_published = array_key_exists('is_published', $data );
+
+        $project->save();
         
+        return to_route('admin.projects.show', $project->id)->with('type', 'success')->with('message', "Elemento ( $project->title ) salvato");
     }
 
     /**
