@@ -22,7 +22,7 @@
                         class="far fa-trash-can ms-2"></i></a>
             </div>
         </header>
-        <div class="card p-3">
+        <div class="card p-3 shadow-lg mt-3">
             <table class="table table-dark table-striped table-hover mt-4">
                 <thead>
                     <tr class="text-uppercase">
