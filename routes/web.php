@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\HomeController as AdminHomeController;
+use App\Http\Controllers\Guest\HomeController as GuestHomeController;
+use App\Http\Controllers\Admin\ProjectController as AdminProjectController;
+use App\Http\Controllers\Guest\ProjectController as GuestProjectController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,13 +18,63 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('guest.home');
+
+/* HOME UTENTE */
+Route::get('/', GuestHomeController::class )->name('guest.home');
+
+/* INDEX */
+Route::get('/projects', [GuestProjectController::class, 'index'])->name('guest.projects.index');
+
+/* SHOW */
+Route::get('/projects/{slug}', [GuestProjectController::class, 'show'])->name('guest.projects.show');
+
+
+
+/* ----------------------------- ADMIN -------------------------------- */
+
+Route::prefix('/admin')->name('admin.')->middleware('auth')->group(function(){
+    
+    /* HOME */ 
+    Route::get('', AdminHomeController::class)->name('home');
+
+    /* CESTINO ELEMENTO */
+    Route::get('/projects/trash', [AdminProjectController::class, 'trash'])->name('projects.trash');
+
+    /* RIPRISTINI ELEMENTO */
+    Route::patch('/projects/{movie}/restore', [AdminProjectController::class, 'restore'])->name('projects.restore');
+
+    /* ELIMINI DEFINITIVAMENTE L'ELEMENTO */
+    Route::delete('/projects/{movie}/drop', [AdminProjectController::class, 'drop'])->name('projects.drop');
+
+    /* TUTTE LE ROTTE */
+    Route::resource('projects', AdminProjectController::class);
+
+    /* INDEX TUTTI GLI ELEMENTI
+    Route::get('/projects', [AdminProjectController::class, 'index'])->name('projects.index')->middleware('auth');
+    
+    /* CREATE CREI ELEMENTO
+    Route::get('/projects/create', [AdminProjectController::class, 'create'])->name('projects.create')->middleware('auth');
+    
+    /* SHOW SINGOLO ELEMENTO
+    Route::get('/projects/{project}', [AdminProjectController::class, 'show'])->name('projects.show')->middleware('auth');
+    
+    /* STORE SALVI ELEMENTO CREATO
+    Route::post('/projects', [AdminProjectController::class, 'store'])->name('projects.store')->middleware('auth');
+    
+    /* EDIT MODIFICHI ELEMENTO
+    Route::get('/projects/{project}/edit', [AdminProjectController::class, 'edit'])->name('projects.edit')->middleware('auth');
+    
+    /* UPDATE SLAVI MODIFICHE ELEMENTO
+    Route::put('/projects/{project}', [AdminProjectController::class, 'update'])->name('projects.update')->middleware('auth');
+    
+    /* DESTROY METTI NEL CESTINO
+    Route::delete('/projects/{project}', [AdminProjectController::class, 'destroy'])->name('projects.destroy')->middleware('auth'); */
+    
 });
 
-Route::get('/admin', function () {
-    return view('admin.home');
-})->middleware(['auth', 'verified'])->name('home');
+/* ---------------------------------------------------------------------------------------------------------- */
+
+/* ROTTE PROFILO */
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
