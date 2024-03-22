@@ -44,9 +44,18 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(String $slug)
     {
-        return view('guest.projects.show');
+        /* RECUPERO IL PROGETTO CORRISPONDENDE CON LO SLUG */
+        $project = Project::whereSlug($slug)->first();
+
+        /* SE NON CE UN PROGETTO */
+        if(!$project) {
+            abort(404);
+        }
+        
+        /* RETURN NELLA STESSA PAGINA */
+        return view('guest.projects.show', compact('project'));
     }
 
     /**
