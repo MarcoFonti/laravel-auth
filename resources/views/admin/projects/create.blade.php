@@ -92,3 +92,10 @@
         </form>
     </div>
 @endsection
+
+@section('js')
+    {{-- PREVIEW IMMAGINE --}}
+    @vite('resources/js/preview_img.js')
+    {{-- SLUG TITOLO --}}
+    @vite('resources/js/slug.js')
+@endsection
