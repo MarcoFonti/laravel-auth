@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\guest;
 
+use App\Models\Project;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -10,9 +11,18 @@ class ProjectController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('guest.projects.index');
+        /* RECUPERI VALORE DELLA QUERY */
+        $search = $request->query('search');
+        
+        /* RESTUTIISCO UNA QUERY CON FILTRO PER RICERCA E SE IL PROGETTO E' PUBBLICATO */
+        $projects = Project::where('title', 'LIKE', "%$search%")
+        ->where('is_published', true)
+        ->get();
+        
+        /* RETURN NELLA STESSA PAGINA */
+        return view('guest.projects.index', compact('projects', 'search'));
     }
 
     /**
