@@ -4,15 +4,33 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Project;
 
 class ProjectController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.projects.index');
+
+        /* RECUPERI VALORE DELLA QUERY */
+        $filter = $request->query('filter');
+        
+        /* PREPARO LA QUERY DEL MODELLO IN ORDINE DESCRESCENTE MODIFICA E CREAZIONE */
+        $query = Project::orderByDesc('updated_at')->orderByDesc('created_at');
+        
+        /* SE LA VARIABILE FILTER ESISTE ED E' UGUALE A PUBLISHED FILTRIAMO SOLO QUELLI PUBBLICATI */
+        if ($filter) {
+            $value = $filter === 'published';
+            $query->whereIsPublished($value);
+        }
+        
+        /* PAGINAZIONE A 10 ALLA VOLTA E MANTIENI LINK SULL'URL */
+        $projects = $query->paginate(10)->withQueryString();
+
+        /* RETURN NELLA STESSA PAGINA */
+        return view('admin.projects.index', compact('projects', 'filter'));
     }
 
     /**
