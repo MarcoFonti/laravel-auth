@@ -5,7 +5,7 @@
 @section('content')
     <div class="container">
         <header class="d-flex justify-content-between align-items-center">
-            <h1 class="text-center mt-4 text-uppercase text-danger">Lista Progetti</h1>
+            <h1 class="mt-4 text-uppercase text-danger">Lista Progetti</h1>
             <div class="d-flex justify-content-center align-items-center gap-3 mt-4">
                 {{-- Filtro --}}
                 <form action="{{ route('admin.projects.index') }}" method="GET">
