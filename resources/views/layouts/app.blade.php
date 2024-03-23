@@ -49,6 +49,9 @@
         
     </div>
 
+    {{-- MODALE --}}
+    @include('includes.alerts.modal')
+
     {{-- JS --}}
     @yield('js')
 </body>
