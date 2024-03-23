@@ -49,6 +49,8 @@
         
     </div>
 
+    {{-- TOAST --}}
+    @include('includes.alerts.toast')
     {{-- MODALE --}}
     @include('includes.alerts.modal')
 
