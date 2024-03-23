@@ -29,7 +29,7 @@
                         <th class="text-warning" scope="col">#</th>
                         <th class="text-warning" scope="col">Titolo</th>
                         <th class="text-warning" scope="col">Slug</th>
-                        <th class="text-warning" scope="col">Stato</th>
+                        <th class="text-warning" scope="col">Pubblicato</th>
                         <th class="text-warning" scope="col">Data creazione</th>
                         <th class="text-warning" scope="col">Ultima modifica</th>
                         <th></th>
@@ -41,7 +41,19 @@
                             <th scope="row">{{ $project->id }}</th>
                             <td>{{ $project->title }}</td>
                             <td>{{ $project->slug }}</td>
-                            <td>{{ $project->is_published ? 'Pubblicato' : 'Bozza' }}</td>
+                            <td>
+                                <form action="{{ route('admin.projects.switch', $project->id) }}" method="POST" onclick="this.submit()">
+                                    @csrf 
+                                    @method('PATCH')
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" role="button"
+                                            id="{{ 'is_published' .$project->id }}" @if ($project->is_published)
+                                                checked
+                                            @endif>
+                                        <label class="form-check-label" for="{{ 'is_published' .$project->id }}">{{ $project->is_published ? 'SI' : 'NO' }}</label>
+                                    </div>
+                                </form>
+                            </td>
                             <td>{{ $project->getCreatedAt() }}</td>
                             <td>{{ $project->getUpdatedAt() }}</td>
                             <td>

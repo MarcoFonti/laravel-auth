@@ -123,7 +123,7 @@ class ProjectController extends Controller
         /* ELIMINI ELEEMNTO */
         $project->delete();
 
-        /* RETURN SULLA INDEX E CREO MESSAGGIO ALERT */
+        /* RETURN SULLA INDEX E CREO TOAST DINAMICO */
         return to_route('admin.projects.index')
         ->with('toast-title', config('app.name'))
         ->with('toast-button-type', 'warning')
@@ -134,6 +134,8 @@ class ProjectController extends Controller
         ->with('toast-button-label', 'Annula');
     }
 
+
+    /* ROTTE CESTINO */
     public function trash()
     {
         /* RECUPERO TUTTI I PROGETTI ELIMINATI */
@@ -165,5 +167,19 @@ class ProjectController extends Controller
         
         /* RETURN SULLA INDEX E CREO MESSAGGIO ALERT */
         return to_route('admin.projects.index')->with('type', 'danger')->with('message', "Elemento ( $projects->title ) eliminato");
+    }
+
+    
+    /* ROTTA SWITCH */
+    public function togglePublication(Project $project)
+    {
+        /* TOGGLE */
+        $project->is_published = !$project->is_published;
+        
+        /* SALVO */
+        $project->save();
+        
+        /* RETURN SULLA INDEX E CREO MESSAGGIO ALERT */
+        return to_route('admin.projects.index')->with('type', 'success')->with('message', "Elemento ( $project->title ) pubblicato");
     }
 }
