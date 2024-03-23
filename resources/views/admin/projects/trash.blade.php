@@ -48,7 +48,7 @@
                                         </button>
                                     </form>
                                     <form action="{{ route('admin.projects.drop', $project->id) }}" method="post"
-                                        class="delete-form">
+                                        class="delete-form" data-bs-toggle="modal" data-bs-target="#modal">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-danger">
@@ -75,4 +75,9 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('js')
+    {{-- MODALE --}}
+    @vite('resources/js/modal.js')
 @endsection

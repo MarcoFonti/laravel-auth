@@ -58,7 +58,7 @@
                                         <i class="fas fa-pencil"></i>
                                     </a>
                                     <form action="{{ route('admin.projects.destroy', $project->id) }}" method="post"
-                                        class="delete-form">
+                                        class="trash-form">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-danger">

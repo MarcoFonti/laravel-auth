@@ -28,12 +28,12 @@
                         <i class="fas fa-pencil me-2"></i>
                         Modifica
                     </a>
-                    <form action="{{ route('admin.projects.destroy', $project->id) }}" method="post" class="delete-form">
+                    <form action="{{ route('admin.projects.destroy', $project->id) }}" method="post" class="trash-form">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">
                             <i class="far fa-trash-can me-2"></i>
-                            Elimina</button>
+                            Metti nel cestino</button>
                     </form>
                 </div>
             </footer>
