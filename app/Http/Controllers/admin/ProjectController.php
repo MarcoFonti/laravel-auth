@@ -129,8 +129,11 @@ class ProjectController extends Controller
 
     public function trash()
     {
-
-        return view('admin.projects.trash');
+        /* RECUPERO TUTTI I PROGETTI ELIMINATI */
+        $projects = Project::onlyTrashed()->get();
+        
+        /* RETURN NELLA STESSA PAGINA */
+        return view('admin.projects.trash', compact('projects'));
     }
 
     public function restore(string $id)

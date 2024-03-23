@@ -46,8 +46,8 @@ Route::prefix('/admin')->name('admin.')->middleware('auth')->group(function(){
     /* ELIMINI DEFINITIVAMENTE L'ELEMENTO */
     Route::delete('/projects/{movie}/drop', [AdminProjectController::class, 'drop'])->name('projects.drop');
 
-    /* TUTTE LE ROTTE */
-    Route::resource('projects', AdminProjectController::class);
+    /* TUTTE LE ROTTE E RECUPERO CON WITRASHED ANCHE GLI ELEMENTI ELIMINATI*/
+    Route::resource('projects', AdminProjectController::class)->withTrashed(['show', 'edit', 'update']);
 
     /* INDEX TUTTI GLI ELEMENTI
     Route::get('/projects', [AdminProjectController::class, 'index'])->name('projects.index')->middleware('auth');
