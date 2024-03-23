@@ -28,7 +28,7 @@
                     <div class="row">
                         @if ($project->image)
                             <div class="col-3 mt-1">
-                                <img src="{{ $project->image }}" alt="{{ $project->title }}">
+                                <img src="{{ $project->image }}" alt="{{ $project->title }}" class="img-fluid">
                             </div>
                         @endif
                         <div class="col">

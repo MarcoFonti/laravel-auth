@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\Admin\HomeController as AdminHomeController;
-use App\Http\Controllers\Guest\HomeController as GuestHomeController;
-use App\Http\Controllers\Admin\ProjectController as AdminProjectController;
-use App\Http\Controllers\Guest\ProjectController as GuestProjectController;
+use App\Http\Controllers\admin\HomeController as AdminHomeController;
+use App\Http\Controllers\guest\HomeController as GuestHomeController;
+use App\Http\Controllers\admin\ProjectController as AdminProjectController;
+use App\Http\Controllers\guest\ProjectController as GuestProjectController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 

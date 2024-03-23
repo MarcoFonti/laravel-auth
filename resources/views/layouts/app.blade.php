@@ -38,10 +38,18 @@
         @include('includes.navbar')
 
         <main>
+
+            {{-- ALERT MESSAGGI --}}
+            @include('includes.alerts.alert')
+
+            {{-- CONTENUTO PRINCIPALE --}}
             @yield('content')
+
         </main>
+        
     </div>
 
+    {{-- JS --}}
     @yield('js')
 </body>
 
