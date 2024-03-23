@@ -150,7 +150,13 @@ class ProjectController extends Controller
 
     public function drop(string $id)
     {
-
-        return to_route('admin.projects.index');
+        /* RECUPERO ELEMENTO CON ID SPECIFICO SE ELEMINATO */
+        $projects = Project::onlyTrashed()->findOrFail($id);
+        
+        /* ELIMINO DEFINITIVAMENTE L'ELEMENTO */
+        $projects->forceDelete();
+        
+        /* RETURN SULLA INDEX E CREO MESSAGGIO ALERT */
+        return to_route('admin.projects.index')->with('type', 'danger')->with('message', "Elemento ( $projects->title ) eliminato");
     }
 }
