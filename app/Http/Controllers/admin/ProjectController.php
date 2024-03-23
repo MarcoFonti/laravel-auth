@@ -118,9 +118,13 @@ class ProjectController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Project $project)
     {
-        return to_route('admin.projects.index');
+        /* ELIMINI ELEEMNTO */
+        $project->delete();
+
+        /* RETURN SULLA INDEX E CREO MESSAGGIO ALERT */
+        return to_route('admin.projects.index')->with('type', 'secondary')->with('message', "Elemento ( $project->title ) messo nel cestino");
     }
 
     public function trash()
