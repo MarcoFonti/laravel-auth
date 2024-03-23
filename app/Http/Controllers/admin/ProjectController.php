@@ -138,8 +138,14 @@ class ProjectController extends Controller
 
     public function restore(string $id)
     {
+        /* RECUPERO ELEMENTO CON ID SPECIFICO SE ELEMINATO */
+        $projects = Project::onlyTrashed()->findOrFail($id);
 
-        return to_route('admin.projects.index');
+        /* RIPRISTINO */
+        $projects->restore();
+
+        /* RETURN SULLA INDEX E CREO MESSAGGIO ALERT */
+        return to_route('admin.projects.index')->with('type', 'success')->with('message', "Elemento ( $projects->title ) ripreso dal cestino");
     }
 
     public function drop(string $id)
