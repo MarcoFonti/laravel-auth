@@ -50,18 +50,26 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
+
+        /* RECUPERO VALIDAZIONE */
         $data = $request->validated();
 
+        /* CREO NUOVA ISTANZA */
         $project = new Project();
 
+        /* DATI VALIDATI */
         $project->fill($data);
 
+        /* SLUG */
         $project->slug = Str::slug($project->title);
 
+        /* VERIFICO SE ESISTE NELL'ARRAY ASSOCIATIVO DATA LA CHIAVE IS_PUBLISHED */
         $project->is_published = array_key_exists('is_published', $data );
 
+        /* SALVATAGGIO */
         $project->save();
         
+        /* RETURN SULLA SHOW CON ID E CREO MESSAGGIO ALERT */
         return to_route('admin.projects.show', $project->id)->with('type', 'success')->with('message', "Elemento ( $project->title ) salvato");
     }
 
@@ -77,9 +85,10 @@ class ProjectController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Project $project)
     {
-        return view('admin.projects.edit');
+        /* RETURN NELLA STESSA PAGINA */
+        return view('admin.projects.edit', compact('project'));
     }
 
     /**

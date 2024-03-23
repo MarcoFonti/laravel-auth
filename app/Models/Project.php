@@ -12,6 +12,9 @@ class Project extends Model
     /* ELIMINAZIONE SOFT */
     use SoftDeletes;
 
+    /* ASSEGNO VALORI DI MASSA */
+    protected $fillable = ['title', 'slug', 'content', 'image', 'is_published'];
+
     /* FUNZIONE DI DATA CREAZIONE */
     public function getCreatedAt()
     {
