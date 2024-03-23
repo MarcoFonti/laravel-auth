@@ -124,7 +124,14 @@ class ProjectController extends Controller
         $project->delete();
 
         /* RETURN SULLA INDEX E CREO MESSAGGIO ALERT */
-        return to_route('admin.projects.index')->with('type', 'secondary')->with('message', "Elemento ( $project->title ) messo nel cestino");
+        return to_route('admin.projects.index')
+        ->with('toast-title', config('app.name'))
+        ->with('toast-button-type', 'warning')
+        ->with('toast-body', "$project->title messo nel cestino")
+        ->with('toast-message', 'Elemento messo nel cestino')
+        ->with('toast-method', 'PATCH')
+        ->with('toast-ruote', route('admin.projects.restore',$project->id))
+        ->with('toast-button-label', 'Annula');
     }
 
     public function trash()

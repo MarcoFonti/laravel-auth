@@ -39,8 +39,7 @@
                                         class="btn btn-sm btn-warning">
                                         <i class="fas fa-pencil"></i>
                                     </a>
-                                    <form action="{{ route('admin.projects.restore', $project->id) }}" method="post"
-                                        class="delete-form">
+                                    <form action="{{ route('admin.projects.restore', $project->id) }}" method="post">
                                         @csrf
                                         @method('PATCH')
                                         <button type="submit" class="btn btn-sm btn-success">

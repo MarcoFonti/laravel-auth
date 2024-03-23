@@ -40,3 +40,8 @@
         </div>
     </div>
 @endsection
+
+@section('js')
+    {{-- TOAST --}}
+    @vite('resources/js/toast.js')
+@endsection
