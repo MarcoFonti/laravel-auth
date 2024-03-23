@@ -41,10 +41,13 @@ Route::prefix('/admin')->name('admin.')->middleware('auth')->group(function(){
     Route::get('/projects/trash', [AdminProjectController::class, 'trash'])->name('projects.trash');
 
     /* RIPRISTINI ELEMENTO */
-    Route::patch('/projects/{movie}/restore', [AdminProjectController::class, 'restore'])->name('projects.restore');
+    Route::patch('/projects/{project}/restore', [AdminProjectController::class, 'restore'])->name('projects.restore');
 
     /* ELIMINI DEFINITIVAMENTE L'ELEMENTO */
-    Route::delete('/projects/{movie}/drop', [AdminProjectController::class, 'drop'])->name('projects.drop');
+    Route::delete('/projects/{project}/drop', [AdminProjectController::class, 'drop'])->name('projects.drop');
+
+    /* ROTTA SWITCH */
+    Route::patch('/projects/{project}/switch', [AdminProjectController::class, 'togglePublication'])->name('projects.switch');
 
     /* TUTTE LE ROTTE E RECUPERO CON WITRASHED ANCHE GLI ELEMENTI ELIMINATI*/
     Route::resource('projects', AdminProjectController::class)->withTrashed(['show', 'edit', 'update']);
