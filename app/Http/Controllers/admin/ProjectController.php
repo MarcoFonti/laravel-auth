@@ -19,16 +19,16 @@ class ProjectController extends Controller
 
         /* RECUPERI VALORE DELLA QUERY */
         $filter = $request->query('filter');
-        
+
         /* PREPARO LA QUERY DEL MODELLO IN ORDINE DESCRESCENTE MODIFICA E CREAZIONE */
         $query = Project::orderByDesc('updated_at')->orderByDesc('created_at');
-        
+
         /* SE LA VARIABILE FILTER ESISTE ED E' UGUALE A PUBLISHED FILTRIAMO SOLO QUELLI PUBBLICATI */
         if ($filter) {
             $value = $filter === 'published';
             $query->whereIsPublished($value);
         }
-        
+
         /* PAGINAZIONE A 10 ALLA VOLTA E MANTIENI LINK SULL'URL */
         $projects = $query->paginate(10)->withQueryString();
 
@@ -64,11 +64,11 @@ class ProjectController extends Controller
         $project->slug = Str::slug($project->title);
 
         /* VERIFICO SE ESISTE NELL'ARRAY ASSOCIATIVO DATA LA CHIAVE IS_PUBLISHED */
-        $project->is_published = array_key_exists('is_published', $data );
+        $project->is_published = array_key_exists('is_published', $data);
 
         /* SALVATAGGIO */
         $project->save();
-        
+
         /* RETURN SULLA SHOW CON ID E CREO MESSAGGIO ALERT */
         return to_route('admin.projects.show', $project->id)->with('type', 'success')->with('message', "Elemento ( $project->title ) salvato");
     }
@@ -94,9 +94,25 @@ class ProjectController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateProjectRequest $request, Project $project)
     {
-        //
+        /* RECUPERO VALIDAZIONE */
+        $data = $request->validated();
+
+        /* DATI VALIDATI */
+        $project->fill($data);
+
+        /* SLUG */
+        $project->slug = Str::slug($project->title);
+
+        /* VERIFICO SE ESISTE NELL'ARRAY ASSOCIATIVO DATA LA CHIAVE IS_PUBLISHED */
+        $project->is_published = array_key_exists('is_published', $data);
+
+        /* SALVATAGGIO */
+        $project->save();
+
+        /* RETURN SULLA SHOW CON ID E CREO MESSAGGIO ALERT */
+        return to_route('admin.projects.show', $project->id)->with('type', 'info')->with('message', "Elemento ( $project->title ) aggiornato");;
     }
 
     /**
@@ -109,10 +125,10 @@ class ProjectController extends Controller
 
     public function trash()
     {
-        
+
         return view('admin.projects.trash');
     }
-    
+
     public function restore(string $id)
     {
 
@@ -121,7 +137,7 @@ class ProjectController extends Controller
 
     public function drop(string $id)
     {
-        
+
         return to_route('admin.projects.index');
     }
 }
