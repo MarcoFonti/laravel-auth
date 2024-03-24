@@ -59,8 +59,8 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6">
-                                <h3>Non ci sono progetti al momento</h3>
+                            <td colspan="7">
+                                <h3>Non ci sono progetti nel cestino</h3>
                             </td>
                         </tr>
                     @endforelse

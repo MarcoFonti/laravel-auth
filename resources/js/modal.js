@@ -43,7 +43,7 @@ deleteForm.forEach(form => {
 /* EVENTO ALLA CONFERMA */
 confirmationButton.addEventListener('click', () => {
 
-    /* SE VIENE SCATENATO ACTIVEFORM */
+    /* SE VIENE SCATENATO ACTIVEFORM EVENTO PROGRAMMABILE */
     if (activeForm) activeForm.submit();
 });
 

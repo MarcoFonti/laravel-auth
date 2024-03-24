@@ -7,6 +7,8 @@ use App\Http\Requests\UpdateProjectRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Project;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ProjectController extends Controller
@@ -66,6 +68,17 @@ class ProjectController extends Controller
         /* VERIFICO SE ESISTE NELL'ARRAY ASSOCIATIVO DATA LA CHIAVE IS_PUBLISHED */
         $project->is_published = array_key_exists('is_published', $data);
 
+        /* VERIFICO SE ESISTE NELL'ARRAY ASSOCIATIVO DATA ARRIVA UN FILE */
+        if (Arr::exists($data, 'image')) {
+
+            /* RECUPERO JPG, PNG ETC.. */
+            $url = $data['image']->extension();
+
+            /* SALVO IL FILE IN UNA CARTELLA E PRENDO L'URL */
+            $img_url = Storage::putFileAs('project_images', $data['image'], "$project->slug.$url");
+            $project->image = $img_url;
+        };
+
         /* SALVATAGGIO */
         $project->save();
 
@@ -108,11 +121,27 @@ class ProjectController extends Controller
         /* VERIFICO SE ESISTE NELL'ARRAY ASSOCIATIVO DATA LA CHIAVE IS_PUBLISHED */
         $project->is_published = array_key_exists('is_published', $data);
 
+        /* VERIFICO SE ESISTE NELL'ARRAY ASSOCIATIVO DATA ARRIVA UN FILE */
+        if (Arr::exists($data, 'image')) {
+
+            /* RECUPERO JPG, PNG ETC.. */
+            $url = $data['image']->extension();
+
+            /* CONTROLLORO SE CE GIA' UN IMMAGINE SE CE LA ELIMINO*/
+            if ($project->image) {
+                Storage::delete($project->image);
+            }
+
+            /* SALVO IL FILE IN UNA CARTELLA E PRENDO L'URL */
+            $img_url = Storage::putFileAs('project_images', $data['image'], "$project->slug.$url");
+            $project->image = $img_url;
+        };
+
         /* SALVATAGGIO */
         $project->save();
 
         /* RETURN SULLA SHOW CON ID E CREO MESSAGGIO ALERT */
-        return to_route('admin.projects.show', $project->id)->with('type', 'info')->with('message', "Elemento ( $project->title ) aggiornato");;
+        return to_route('admin.projects.show', $project->id)->with('type', 'info')->with('message', "Elemento ( $project->title ) aggiornato");
     }
 
     /**
@@ -125,13 +154,13 @@ class ProjectController extends Controller
 
         /* RETURN SULLA INDEX E CREO TOAST DINAMICO */
         return to_route('admin.projects.index')
-        ->with('toast-title', config('app.name'))
-        ->with('toast-button-type', 'warning')
-        ->with('toast-body', "$project->title messo nel cestino")
-        ->with('toast-message', 'Elemento messo nel cestino')
-        ->with('toast-method', 'PATCH')
-        ->with('toast-ruote', route('admin.projects.restore',$project->id))
-        ->with('toast-button-label', 'Annula');
+            ->with('toast-title', config('app.name'))
+            ->with('toast-button-type', 'warning')
+            ->with('toast-body', "$project->title messo nel cestino")
+            ->with('toast-message', 'Elemento messo nel cestino')
+            ->with('toast-method', 'PATCH')
+            ->with('toast-ruote', route('admin.projects.restore', $project->id))
+            ->with('toast-button-label', 'Annula');
     }
 
 
@@ -140,7 +169,7 @@ class ProjectController extends Controller
     {
         /* RECUPERO TUTTI I PROGETTI ELIMINATI */
         $projects = Project::onlyTrashed()->get();
-        
+
         /* RETURN NELLA STESSA PAGINA */
         return view('admin.projects.trash', compact('projects'));
     }
@@ -161,25 +190,35 @@ class ProjectController extends Controller
     {
         /* RECUPERO ELEMENTO CON ID SPECIFICO SE ELEMINATO */
         $projects = Project::onlyTrashed()->findOrFail($id);
-        
+
+        if ($projects) {
+            Storage::delete($projects->image);
+        }
+
         /* ELIMINO DEFINITIVAMENTE L'ELEMENTO */
         $projects->forceDelete();
-        
+
         /* RETURN SULLA INDEX E CREO MESSAGGIO ALERT */
         return to_route('admin.projects.index')->with('type', 'danger')->with('message', "Elemento ( $projects->title ) eliminato");
     }
 
-    
+
     /* ROTTA SWITCH */
     public function togglePublication(Project $project)
     {
         /* TOGGLE */
         $project->is_published = !$project->is_published;
-        
+
+        /* OPZIONE */
+        $action = $project->is_published ? 'Pubblicato' : 'messo in Bozza';
+
+        /* COLORE ALERT */
+        $type = $project->is_published ? 'success' : 'warning';
+
         /* SALVO */
         $project->save();
-        
+
         /* RETURN SULLA INDEX E CREO MESSAGGIO ALERT */
-        return to_route('admin.projects.index')->with('type', 'success')->with('message', "Elemento ( $project->title ) pubblicato");
+        return to_route('admin.projects.index')->with('type', $type)->with('message', "Elemento ( $project->title ) è stato $action");
     }
 }
