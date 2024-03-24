@@ -28,16 +28,16 @@ class ProjectFactory extends Factory
         $slug = Str::slug($title);
 
         /* CREO FILE */
-        $file = fake()->image(storage_path('app/public/project_images') ,250, 250);
+        $file = fake()->image(null ,350, 350);
 
         /* SALVO FILE */
-        /* $url = Storage::putFileAs('project_images', $file, "$slug.png"); <--- ERRORE */ 
+        $url = Storage::putFileAs('project_images', $file, "$slug.png"); 
 
         return [
             'title' => $title,
             'slug' => $slug,
             'content' => fake()->paragraphs(15, true),
-            'image' => $file,
+            'image' => $url,
             'is_published' => fake()->boolean()
         ];
     }
