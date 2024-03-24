@@ -32,9 +32,9 @@ deleteForm.forEach(form => {
         /* COLORE BOTTONE */
         confirmationButton.className = 'btn btn-danger';
         /* TESTO TITOLO */
-        modalTitle.innerText = 'Elimina Progetto';
+        modalTitle.innerText = 'Eliminazione';
         /* TESTO BODY */
-        modalBody.innerText = 'Premendo ELIMINA, eliminerai definitivamente il Progetto';
+        modalBody.innerText = 'Premendo ELIMINA, eliminerai definitivamente';
 
         
     })

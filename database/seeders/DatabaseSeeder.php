@@ -19,6 +19,6 @@ class DatabaseSeeder extends Seeder
             'email' => 'theemporiumg@gmail.com',
         ]); */
 
-        \App\Models\Project::factory(10)->create();
+        \App\Models\Project::factory(15)->create();
     }
 }

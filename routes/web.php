@@ -46,6 +46,9 @@ Route::prefix('/admin')->name('admin.')->middleware('auth')->group(function(){
     /* ELIMINI DEFINITIVAMENTE L'ELEMENTO */
     Route::delete('/projects/{project}/drop', [AdminProjectController::class, 'drop'])->name('projects.drop');
 
+    /* SVUOTA TUTTO IL CESTINO */
+    Route::delete('/projects/empty', [AdminProjectController::class, 'empty'])->name('projects.empty');
+
     /* ROTTA SWITCH */
     Route::patch('/projects/{project}/switch', [AdminProjectController::class, 'togglePublication'])->name('projects.switch');
 
