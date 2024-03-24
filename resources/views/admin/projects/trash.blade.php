@@ -69,8 +69,14 @@
             <div class="d-flex justify-content-between align-items-center">
                 <a class="btn btn-secondary" href="{{ route('admin.projects.index') }}">
                     <i class="fa-solid fa-rotate-left me-2"></i>Torna Indietro</a>
-                <a href="°" class="btn btn-info">
-                    <i class="fa-solid fa-trash-can-arrow-up me-2"></i>Svuota Cestino</a>
+                <form action="{{ route('admin.projects.empty') }}" method="POST" data-title="" data-bs-toggle="modal"
+                    data-bs-target="#modal" class="delete-form">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-info">
+                        <i class="fa-solid fa-trash-can-arrow-up me-2"></i>Svuota Cestino
+                    </button>
+                </form>
             </div>
         </div>
     </div>

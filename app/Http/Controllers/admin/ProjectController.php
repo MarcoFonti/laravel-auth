@@ -202,6 +202,28 @@ class ProjectController extends Controller
         return to_route('admin.projects.index')->with('type', 'danger')->with('message', "Elemento ( $projects->title ) eliminato");
     }
 
+    public function empty()
+    {
+        /* RECUPERO TUTTI GLI ELEMENTI SE ELIMINATI */
+        $projects = Project::onlyTrashed()->get();
+        
+        /* CICLO SU TUTTI I PROGETTI */
+        foreach ($projects as $project) {
+            
+            /* SE HANNO UN TITOLO  */
+            if ($project->title) {
+                /* ELIMINAZIONE */
+                Storage::delete($project->title);
+            }
+            
+            /* ELIMINO DEFINITIVAMENTE L'ELEMENTI */
+            $project->forceDelete();
+        }
+        
+        /* RETURN SUL TRASH E CREO MESSAGGIO ALERT */
+        return to_route('admin.projects.trash')->with('type', 'danger')->with('message', 'Tutti i progetti sono stati eliminitati definitivamente');
+    }
+
 
     /* ROTTA SWITCH */
     public function togglePublication(Project $project)
