@@ -22,13 +22,14 @@
             <div class="card my-3">
                 <div class="card-header d-flex align-items-center justify-content-between text-uppercase">
                     {{ $project->title }}
-                    <a href="{{ route('guest.projects.show', $project->slug) }}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
+                    <a href="{{ route('guest.projects.show', $project->slug) }}" class="btn btn-primary"><i
+                            class="fas fa-eye"></i></a>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         @if ($project->image)
                             <div class="col-3 mt-1">
-                                <img src="{{ $project->image }}" alt="{{ $project->title }}" class="img-fluid">
+                                <img src="{{ $project->assetUrl() }}" alt="{{ $project->title }}" class="img-fluid">
                             </div>
                         @endif
                         <div class="col">

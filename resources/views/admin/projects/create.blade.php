@@ -5,7 +5,7 @@
 @section('content')
     <div class="card m-5 p-3 shadow-lg">
         <h1 class="text-center mt-3 text-uppercase text-danger">Crea progetto</h1>
-        <form action="{{ route('admin.projects.store') }}" method="POST">
+        <form action="{{ route('admin.projects.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row mt-3">
                 <div class="col-6">
@@ -56,7 +56,7 @@
                 <div class="col-11">
                     <div class="mb-3">
                         <label for="image" class="form-label">Immagine Progetto</label>
-                        <input type="url"
+                        <input type="file"
                             class="form-control 
                             @error('image') is-invalid 
                             @elseif(old('image')) is-valid 
@@ -71,7 +71,9 @@
                 </div>
                 <div class="col-1">
                     <div class="mb-5">
-                        <img src="{{ old('image', 'https://marcolanci.it/boolean/assets/placeholder.png') }}"
+                        <img src="{{ old('image') 
+                        ? asset('storage/' . old('image')) 
+                        : 'https://marcolanci.it/boolean/assets/placeholder.png' }}"
                             class="img-fluid" alt="Immageni Progetto" id="preview">
                     </div>
                 </div>

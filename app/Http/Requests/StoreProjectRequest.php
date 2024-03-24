@@ -27,7 +27,7 @@ class StoreProjectRequest extends FormRequest
         return [
             'title' => 'required|string|min:5|max:50|unique:projects',
             'content' => 'required|string',
-            'image' => 'nullable|url',
+            'image' => 'nullable|image',
             'is_published' => 'nullable|boolean',
         ];
     }
@@ -45,6 +45,7 @@ class StoreProjectRequest extends FormRequest
             'title.max' => 'Il campo Titolo deve essere almeni :max caratteri',
             'title.unique' => "Esiste già questo nome {$data['title']}",
             'content.required' => 'Il contenuto è obbligatorio ',
+            'image.image' => 'Il file inserito non è un\'immagine',
         ];
     }
 }

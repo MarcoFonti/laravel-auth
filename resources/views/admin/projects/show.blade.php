@@ -10,7 +10,7 @@
         <div class="card p-3">
             <div class="clearfix">
                 @if ($project->image)
-                    <img src="{{ $project->image }}" alt="{{ $project->title }}" class="me-3 float-start mt-1 img-fluid">
+                    <img src="{{ $project->assetUrl() }}" alt="{{ $project->title }}" class="me-3 float-start mt-1 img-fluid">
                 @endif
                 <p>{{ $project->content }}</p>
                 <div class="d-flex align-items-center text-uppercase gap-1">

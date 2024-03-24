@@ -30,7 +30,7 @@ class UpdateProjectRequest extends FormRequest
         return [
             'title' =>['required', 'string','min:5','max:50', Rule::unique('projects')->ignore($project->id)],
             'content' => 'required|string',
-            'image' => 'nullable|url:http,https',
+            'image' => 'nullable|image',
             'is_published' => 'nullable|boolean',
         ];
     }
@@ -48,7 +48,7 @@ class UpdateProjectRequest extends FormRequest
             'title.max' => 'Il campo Titolo deve essere almeni :max caratteri',
             'title.unique' => "Esiste già questo nome {$data['title']}",
             'content.required' => 'Il contenuto è obbligatorio ',
-            'image.url' => 'L\'indirizzo iserito non è valido',
+            'image.image' => 'Il file inserito non è un\'immagine',
         ];
     }
 }

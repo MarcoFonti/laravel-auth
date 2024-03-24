@@ -26,4 +26,9 @@ class Project extends Model
     {
         return Carbon::create($this->update_at)->format('d-m-Y H:i:s',);
     }
+
+    /* FUNZIONE IMMAGINI */
+    public function assetUrl(){
+        return asset('storage/' . $this->image);
+    }
 }
